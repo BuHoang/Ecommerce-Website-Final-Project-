@@ -8,7 +8,9 @@
 	?>
 	<h1 class="text-center">Payment Options For you</h1>
 	<p class="lead text-center">
-		<a href="order.php?c_id=<?php echo $customer_id; ?>">Offline Payment</a>
+		<a href="order.php?c_id=<?php echo $customer_id; ?>">Offline Payment
+			<img class="img-responsive" src="images/offpay.png" alt="img-offpay" style="width: 800px">
+		</a>
 	</p>
 	<center>
 		<p class="lead">
