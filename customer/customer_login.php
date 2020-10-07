@@ -21,49 +21,6 @@
 		<?php
 			require_once 'vendor/autoload.php';
 
-			// init configuration
-			$clientID = '712451507027-mq0g4239su8lesg6p9eto7h91ngvmi3b.apps.googleusercontent.com';
-			$clientSecret = 'W8y5OtjvYVWNtfwyDIB_qReF';
-			$redirectUri = 'http://localhost/Project2/index.php';
-
-			// create Client Request to access Google API
-			$client = new Google_Client();
-			$client->setClientId($clientID);
-			$client->setClientSecret($clientSecret);
-			$client->setRedirectUri($redirectUri);
-			$client->addScope("email");
-			$client->addScope("profile");
-
-			// authenticate code from Google OAuth Flow
-			if (isset($_GET['code'])) {
-				$token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
-				$client->setAccessToken($token['access_token']);
-				
-				$google_oauth = new Google_Service_Oauth2($client);
-				$google_account_info = $google_oauth->userinfo->get();
-				$email =  $google_account_info->email;
-				$name =  $google_account_info->name;
-				
-			} else {
-				echo "<a href='".$client->createAuthUrl()."' class='google btn' 
-					style='width: 100%;
-					padding: 12px;
-					border: none;
-					border-radius: 4px;
-					margin: 5px 0;
-					opacity: 0.85;
-					display: inline-block;
-					font-size: 17px;
-					line-height: 20px;
-					text-decoration: none; 
-					background-color: #dd4b39;
-					color: white;'>
-				<i class='fa fa-google fa-fw'></i> Login with Google+</a>";
-			}
-		?>
-		<?php
-			require_once 'vendor/autoload.php';
-
 			$fb = new Facebook\Facebook([
 				'app_id' => '301779017756389', 
   				'app_secret' => 'd3fc4b05a3c962f2a04672b6bd072a1b',
