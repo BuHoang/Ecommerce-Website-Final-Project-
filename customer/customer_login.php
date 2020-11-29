@@ -26,13 +26,60 @@
   				'app_secret' => 'd3fc4b05a3c962f2a04672b6bd072a1b',
   				'default_graph_version' => 'v5.7',
   			]);
+  		?>
+  		<?php
+			$facebook_output = '';
+			$facebook_helper = $fb->getRedirectLoginHelper();
 
-			$helper = $fb->getRedirectLoginHelper();
+			if(isset($_GET['code']))
+			{
+				if(isset($_SESSION['access_token']))
+				{
+				  	$access_token = $_SESSION['access_token'];
+				}
+				else
+				{
+				  	$access_token = $facebook_helper->getAccessToken();
 
-			$permissions = ['email']; // Optional permissions
-			$loginUrl = $helper->getLoginUrl('http://localhost/Project2/customer/fb-callback.php', $permissions);
+				  	$_SESSION['access_token'] = $access_token;
 
-			echo "<a href='" . htmlspecialchars($loginUrl) . " class='fb btn'
+				  	$facebook->setDefaultAccessToken($_SESSION['access_token']);
+				}
+
+				$_SESSION['user_id'] = '';
+				$_SESSION['user_name'] = '';
+				$_SESSION['user_email_address'] = '';
+				$_SESSION['user_image'] = '';
+
+				$graph_response = $facebook->get("/me?fields=name,email", $access_token);
+
+				$facebook_user_info = $graph_response->getGraphUser();
+
+				if(!empty($facebook_user_info['id']))
+				{
+				 	$_SESSION['user_image'] = 'http://graph.facebook.com/'.$facebook_user_info['id'].'/picture';
+				}
+
+				if(!empty($facebook_user_info['name']))
+				{
+				  	$_SESSION['user_name'] = $facebook_user_info['name'];
+				}
+
+				if(!empty($facebook_user_info['email']))
+				{
+				  	$_SESSION['user_email_address'] = $facebook_user_info['email'];
+				}
+				 
+			}
+			else
+			{
+				 // Get login url
+				$facebook_permissions = ['email']; // Optional permissions
+
+				$facebook_login_url = $facebook_helper->getLoginUrl('http://localhost/Project2/index.php', $facebook_permissions);
+				    
+				    // Render Facebook login button
+				echo "<a href='" . htmlspecialchars($facebook_login_url) . " class='fb btn'
 					style='width: 100%;
 					padding: 12px;
 					border: none;
@@ -48,6 +95,7 @@
 					background-color: #3B5998;
   					color: white;'>
   				<i class='fa fa-facebook fa-fw'></i> Login with Facebook</a>";
+			}	
 		?>
 		<a href="customer_register.php">
 			<h3>Or You can register the website account here!</h3>
