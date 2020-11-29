@@ -51,9 +51,13 @@
 								$subject = "Contact to get help";
 								$mailheader = "From: $email \r\n";
 
-								mail($recipient, $subject, $formcontent, $mailheader) or die("<h2 align = 'center' style = 'color: red;'>Error! Your message was sent unsuccessfully</h2>");
-								echo "<h2 align = 'center'>Your message has been sent successfully</h2>";
-
+								if (mail($recipient, $subject, $formcontent, $mailheader)) {
+									echo "<h2 align = 'center'>Your message has been sent successfully</h2>";
+								}
+								else{
+									echo "<h2 align = 'center' style = 'color: red;'>Error! Your message was sent unsuccessfully</h2>";
+								}
+								
 								//sendmail_path = "\"D:\xampp\sendmail\sendmail.exe\" -t" in php.ini
 
 								//auth_username=hoang1835@gmail.com in sendmail.ini
