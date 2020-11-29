@@ -42,22 +42,25 @@
 						<?php
 							if (isset($_POST['submit'])) {
 								//admin receives message
-								$name = $_POST['name'];
-								$email = $_POST['email'];
-								$problem = $_POST['problem'];
-								$message = $_POST['message'];
-								$formcontent="From: $name \n Message: $message";
+								$nameSender = $_POST['name'];
+								$emailSender = $_POST['email'];
+								$subjectSender = $_POST['problem'];
+								$messageSender = $_POST['message'];
 								$recipient = "hoang1835@gmail.com";
-								$subject = "Contact to get help";
-								$mailheader = "From: $email \r\n";
+								mail($recipient, $nameSender, $subjectSender, $messageSender, $emailSender);
 
-								if (mail($recipient, $subject, $formcontent, $mailheader)) {
+								$email = $_POST['email'];
+								$subject = "Welcome to Fashion Clothing website";
+								$msg = "We will respond to you as soon as possible. Thanks for sending us the message";
+								$from = "hoang1835@gmail.com";
+
+								if (mail($email, $subject, $msg, $from)) {
 									echo "<h2 align = 'center'>Your message has been sent successfully</h2>";
 								}
 								else{
 									echo "<h2 align = 'center' style = 'color: red;'>Error! Your message was sent unsuccessfully</h2>";
 								}
-								
+
 								//sendmail_path = "\"D:\xampp\sendmail\sendmail.exe\" -t" in php.ini
 
 								//auth_username=hoang1835@gmail.com in sendmail.ini
